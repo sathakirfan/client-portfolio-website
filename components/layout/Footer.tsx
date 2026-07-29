@@ -10,6 +10,7 @@ import {
   Download
 } from 'lucide-react';
 import { siteSettings } from '@/lib/data';
+import { downloadResumePDF } from '@/lib/utils';
 
 interface FooterProps {
   onOpenResume: () => void;
@@ -78,7 +79,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenResume }) => {
           {/* Download & Scroll Actions */}
           <div className="md:col-span-3 flex flex-col justify-between items-start md:items-end gap-4">
             <button
-              onClick={onOpenResume}
+              onClick={() => {
+                downloadResumePDF();
+                onOpenResume();
+              }}
               className="saas-button-luxury w-full md:w-auto text-xs px-6 py-3"
             >
               <Download className="w-4 h-4" />

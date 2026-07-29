@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '@/components/context/ThemeContext';
 import { trackDownload } from '@/lib/firebase';
+import { downloadResumePDF } from '@/lib/utils';
 
 interface NavbarProps {
   onOpenCommand: () => void;
@@ -137,6 +138,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             onClick={() => {
               trackDownload('Resume-Click');
+              downloadResumePDF();
               onOpenResume();
             }}
             className="saas-button-luxury h-10 px-4 text-xs"
@@ -160,6 +162,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             onClick={() => {
               trackDownload('Resume-Click-Mobile');
+              downloadResumePDF();
               onOpenResume();
             }}
             className="saas-button-luxury h-10 px-3.5 text-xs"

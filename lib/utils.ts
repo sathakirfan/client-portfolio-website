@@ -37,3 +37,13 @@ export function exportToCSV(data: Record<string, unknown>[], filename: string) {
   link.click();
   document.body.removeChild(link);
 }
+
+export function downloadResumePDF() {
+  if (typeof window === 'undefined') return;
+  const link = document.createElement('a');
+  link.href = '/Mohamed_Safthar_Hussain_Operation_Team_Leader.pdf';
+  link.download = 'Mohamed_Safthar_Hussain_Operation_Team_Leader.pdf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}

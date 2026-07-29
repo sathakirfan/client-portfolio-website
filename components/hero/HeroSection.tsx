@@ -22,6 +22,7 @@ import {
 import { SubtleLogisticsBackground } from './SubtleLogisticsBackground';
 import { heroStats } from '@/lib/data';
 import { getSiteSettings } from '@/lib/portfolioData';
+import { downloadResumePDF } from '@/lib/utils';
 import { SiteSettings } from '@/types/portfolio';
 
 interface HeroSectionProps {
@@ -97,7 +98,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResume }) => {
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2"
             >
               <button
-                onClick={onOpenResume}
+                onClick={() => {
+                  downloadResumePDF();
+                  onOpenResume();
+                }}
                 className="saas-button-luxury px-8 py-4 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 min-h-[48px]"
               >
                 <Download className="w-4 h-4 stroke-[2.5]" />

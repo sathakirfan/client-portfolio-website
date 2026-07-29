@@ -16,8 +16,8 @@ export const ResumeViewerModal: React.FC<ResumeViewerModalProps> = ({ isOpen, on
   const handleDownload = () => {
     trackDownload('PDF-Resume-Downloaded');
     const link = document.createElement('a');
-    link.href = '/Mohamed_Safthar_Warehouse_Lead_Resume.pdf';
-    link.download = 'Mohamed_Safthar_Warehouse_Lead_Resume.pdf';
+    link.href = '/Mohamed_Safthar_Hussain_Operation_Team_Leader.pdf';
+    link.download = 'Mohamed_Safthar_Hussain_Operation_Team_Leader.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -69,7 +69,7 @@ export const ResumeViewerModal: React.FC<ResumeViewerModalProps> = ({ isOpen, on
           {/* PDF Embed iFrame Container */}
           <div className="flex-1 min-h-[450px] sm:min-h-[550px] bg-[#FFFFFF] dark:bg-[#050816] p-2">
             <iframe
-              src="/Mohamed_Safthar_Warehouse_Lead_Resume.pdf#toolbar=0&navpanes=0&scrollbar=1"
+              src="/Mohamed_Safthar_Hussain_Operation_Team_Leader.pdf#toolbar=0&navpanes=0&scrollbar=1"
               className="w-full h-full rounded-xl border border-[#F2E6C9] dark:border-[#283454]"
               title="Mohamed Safthar Resume PDF"
             />
