@@ -12,77 +12,59 @@
 
 ## 📐 System Architecture Diagram
 
-```mermaid
-graph TD
-    subgraph Client Layer ["🖥️ Client Application (Next.js App Router)"]
-        UI["🎨 Unified Executive UI System"]
-        Nav["🧭 Navbar & Command Palette (Ctrl+K)"]
-        Hero["🚀 Hero Section & 3D Logistics Telemetry"]
-        Analytics["📊 Live Telemetry & UAE Map Visualizer"]
-        PDF["📄 Integrated PDF CV Viewer Modal"]
-    end
+```text
+========================================================================================================================
+                                      SYSTEM ARCHITECTURE & INFRASTRUCTURE MAP
+                                Mohamed Safthar Portfolio & Operations Control Platform
+========================================================================================================================
 
-    subgraph Data & State Layer ["⚡ Data & State Management"]
-        LocalStore["💾 Browser LocalStorage Cache (safthar_data_*)"]
-        EventDispatcher["🔄 Custom Window Event Listener (safthar_portfolio_data_changed)"]
-        DataHelpers["🛠️ portfolioData.ts Helpers"]
-    end
-
-    subgraph Security & Admin ["🔑 Admin Management Portal (/admin)"]
-        AdminAuth["🔒 Password Security Guard (safthar123)"]
-        CRUD["⚙️ Full CRUD Engine (Projects, Experience, Skills, Certs, Gallery, Testimonials, Profile Settings)"]
-        LeadsTable["📩 Recruiter Leads & CSV Export Engine"]
-    end
-
-    subgraph Backend Services ["🔥 Cloud Infrastructure (Firebase & Storage)"]
-        Firestore["🔥 Cloud Firestore Database (messages, downloads)"]
-        SecurityRules["🛡️ firestore.rules Security System"]
-        PublicPDF["📁 /public Direct Document Delivery"]
-    end
-
-    Client Layer --> Data & State Layer
-    Data & State Layer --> Client Layer
-    Security & Admin --> Data & State Layer
-    Security & Admin --> Backend Services
-    Client Layer --> Backend Services
-```
-
----
-
-## 🗺️ System Data Flow & Architecture Map
-
-```
-+-----------------------------------------------------------------------------------+
-|                            PUBLIC RECRUITER LANDING PAGE                          |
-|  [Navbar & Dubai Clock] -> [Hero Telemetry] -> [About Profile] -> [Timeline]      |
-|  [Skills Grid] -> [Case Studies] -> [Facility Gallery] -> [Emirates Map Radar]     |
-+-----------------------------------------------------------------------------------+
-                                         |
-                                         v
-+-----------------------------------------------------------------------------------+
-|                        RECRUITMENT INQUIRY & CONTACT FORM                         |
-|  Recruiter submits Name, Company, Email, Phone & Job Requirement Message          |
-+-----------------------------------------------------------------------------------+
-                                         |
-                                         +-----------------------+
-                                         |                       |
-                                         v                       v
-+--------------------------------------------------+  +-----------------------------+
-|           FIREBASE CLOUD FIRESTORE DB            |  |  BROWSER LOCALSTORAGE CACHE |
-|  Collection: 'messages'                          |  |  Key: 'safthar_messages'    |
-|  Collection: 'downloads'                         |  |  Key: 'safthar_data_*'      |
-|  Enforced via firestore.rules Security           |  |  Real-time Event Broadcast  |
-+--------------------------------------------------+  +-----------------------------+
-                                         |                       |
-                                         +-----------------------+
-                                         |
-                                         v
-+-----------------------------------------------------------------------------------+
-|                       ADMIN MANAGEMENT PORTAL (/admin)                            |
-|  - Secure Password Auth (Hidden Input, zero plain text exposure)                   |
-|  - Real-time Firestore Leads Table + CSV Export Engine                            |
-|  - Full CRUD Control over Projects, Experiences, Skills, Certifications, Gallery   |
-+-----------------------------------------------------------------------------------+
+                                            +---------------------------------+
+                                            |       END USER / RECRUITER      |
+                                            |  (Desktop / Mobile / Tablet)    |
+                                            +---------------------------------+
+                                                             |
+                                                             v
++----------------------------------------------------------------------------------------------------------------------+
+|                                     FRONTEND CLIENT LAYER (Next.js 16 App Router)                                    |
+|                                                                                                                      |
+|  +---------------------------+  +---------------------------+  +---------------------------+  +-------------------+  |
+|  |   UNIFIED EXECUTIVE UI    |  |  LOGISTICS TELEMETRY RADAR|  |   92vh PDF RESUME VIEWER  |  | RECRUITER AI BOT  |  |
+|  |  - HSL Navy/Gold (#050816)|  |  - Dispatch Flow Charts   |  |  - Direct Browser Download|  |  - Interactive QA |  |
+|  |  - 500ms Smooth Transition|  |  - UAE Emirates Coverage  |  |  - FitH View Auto-Scale   |  |  - Custom Bot     |  |
+|  +---------------------------+  +---------------------------+  +---------------------------+  +-------------------+  |
+|                                                                                                                      |
+|  +----------------------------------------------------------------------------------------------------------------+  |
+|  |                                KEYBOARD COMMAND PALETTE (Ctrl+K / ⌘K)                                          |  |
+|  +----------------------------------------------------------------------------------------------------------------+  |
++----------------------------------------------------------------------------------------------------------------------+
+                                         |                                         |
+                                         v                                         v
++----------------------------------------------------+   +-------------------------------------------------------------+
+|          CONTACT & RECRUITMENT INQUIRY FORM        |   |                ADMIN MANAGEMENT PORTAL (/admin)              |
+|  - Validates Recruiter Name, Email, Phone, Message |   |  - Password Protected Authentication Guard (Hidden Input)   |
+|  - Real-time Loader & Success Card Feedback        |   |  - Full CRUD: Projects, Experience, Skills, Certs, Gallery  |
++----------------------------------------------------+   +-------------------------------------------------------------+
+                         |                                                                 |
+                         +--------------------------------+--------------------------------+
+                                                          |
+                                                          v
++----------------------------------------------------------------------------------------------------------------------+
+|                                           DATA ENGINE & CLOUD STORAGE SERVICES                                       |
+|                                                                                                                      |
+|  +---------------------------------------------------------+   +--------------------------------------------------+  |
+|  |                FIREBASE CLOUD FIRESTORE DB              |   |            BROWSER LOCALSTORAGE BACKUP           |  |
+|  |                                                         |   |                                                  |  |
+|  |  Collection: 'messages'  (Recruiter Submissions)        |   |  Key: 'safthar_messages'                         |  |
+|  |  Collection: 'downloads' (PDF Download Analytics)       |   |  Key: 'safthar_data_settings'                    |  |
+|  |  Enforced via: firestore.rules Security System          |   |  Key: 'safthar_data_projects'                    |  |
+|  +---------------------------------------------------------+   +--------------------------------------------------+  |
+|                                             \                                 /                                      |
+|                                              +---------------+---------------+                                       |
+|                                                              |                                                       |
+|                                                              v                                                       |
+|                                           REAL-TIME DATA DISPATCHER EVENT ENGINE                                     |
+|                                      window.dispatchEvent('safthar_portfolio_data_changed')                          |
++----------------------------------------------------------------------------------------------------------------------+
 ```
 
 ---
