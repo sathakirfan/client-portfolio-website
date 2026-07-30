@@ -40,6 +40,7 @@ import {
   getTestimonials, saveTestimonials,
   resetPortfolioDataToDefault
 } from '@/lib/portfolioData';
+import { fetchContactMessages, updateMessageStatus, deleteContactMessage } from '@/lib/firebase';
 
 const mockMessages: Message[] = [
   {
@@ -119,8 +120,14 @@ export default function AdminDashboardPage() {
       }
       setAuthenticated(true);
 
-      const localMsgs = JSON.parse(localStorage.getItem('safthar_messages') || '[]');
-      setMessages([...localMsgs, ...mockMessages]);
+      // Load Firestore real-time & backup messages
+      fetchContactMessages().then((data) => {
+        if (data && data.length > 0) {
+          setMessages(data);
+        } else {
+          setMessages(mockMessages);
+        }
+      });
 
       const count = parseInt(localStorage.getItem('safthar_download_count') || '142', 10);
       setDownloadCount(count);
@@ -443,19 +450,40 @@ export default function AdminDashboardPage() {
                         <td className="p-3 font-semibold text-[#3B82F6]">{msg.company}</td>
                         <td className="p-3 text-slate-300 max-w-xs truncate">{msg.subject}</td>
                         <td className="p-3">
-                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase border ${
-                            msg.status === 'new' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-[#22C55E]/20 text-[#22C55E] border-[#22C55E]/40'
-                          }`}>
-                            {msg.status}
-                          </span>
-                        </td>
-                        <td className="p-3 text-right">
                           <button
-                            onClick={() => alert(`Message from ${msg.name} (${msg.company}):\n\n"${msg.message}"\n\nPhone: ${msg.phone}\nEmail: ${msg.email}`)}
+                            onClick={async () => {
+                              const nextStatus = msg.status === 'new' ? 'reviewed' : msg.status === 'reviewed' ? 'contacted' : 'new';
+                              setMessages(prev => prev.map(m => m.id === msg.id ? { ...m, status: nextStatus } : m));
+                              await updateMessageStatus(msg.id, nextStatus);
+                              showToast(`Updated status to ${nextStatus}`);
+                            }}
+                            className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase border transition-all ${
+                              msg.status === 'new' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 hover:bg-amber-500/30' : msg.status === 'reviewed' ? 'bg-[#3B82F6]/20 text-[#3B82F6] border-[#3B82F6]/40 hover:bg-[#3B82F6]/30' : 'bg-[#22C55E]/20 text-[#22C55E] border-[#22C55E]/40 hover:bg-[#22C55E]/30'
+                            }`}
+                            title="Click to toggle status"
+                          >
+                            {msg.status}
+                          </button>
+                        </td>
+                        <td className="p-3 text-right flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => alert(`Recruiter Lead from ${msg.name} (${msg.company}):\n\nSubject: ${msg.subject}\n\nMessage:\n"${msg.message}"\n\nPhone: ${msg.phone}\nEmail: ${msg.email}`)}
                             className="p-2 rounded-lg bg-[#0A1025] border border-[#283454] text-[#CBD5E1] hover:text-white hover:border-[#3B82F6]"
-                            title="View Message"
+                            title="View Message Details"
                           >
                             <Eye className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={async () => {
+                              if (!confirm('Are you sure you want to delete this lead?')) return;
+                              setMessages(prev => prev.filter(m => m.id !== msg.id));
+                              await deleteContactMessage(msg.id);
+                              showToast('Lead message deleted');
+                            }}
+                            className="p-2 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 hover:bg-rose-500/20"
+                            title="Delete Lead"
+                          >
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </td>
                       </tr>
